@@ -91,7 +91,13 @@ class GuruController extends Controller
    */
   public function edit(User $user)
   {
-    //
+    $data = (object) [
+      'jabatan' => Jabatan::all(),
+      'tunjangan' => Tunjangan::all(),
+      'guru' => $user,
+    ];
+
+    return view('dashboard.admin.guru.edit', compact('data'));
   }
 
   /**
@@ -99,7 +105,39 @@ class GuruController extends Controller
    */
   public function update(Request $request, User $user)
   {
-    //
+    $request->validate([
+      'name' => 'required|string',
+      'email' => 'required|email|unique:users,email,' . $user->id,
+      'nuptk' => 'required|string|unique:users,nuptk,' . $user->id,
+      'tempat_lahir' => 'required|string',
+      'tanggal_lahir' => 'required|date',
+      'jenis_kelamin' => 'required|in:L,P',
+      'agama' => 'required|in:Islam,Kristen,Katolik,Hindu,Budha,Konghucu',
+      'alamat' => 'required|string',
+      'no_hp' => 'required|string',
+      'jabatan_id' => 'required|exists:jabatan,id',
+      'tunjangan_id' => 'required|exists:tunjangan,id',
+    ]);
+
+    $save = $user->update([
+      'name' => $request->name,
+      'email' => $request->email,
+      'nuptk' => $request->nuptk,
+      'tempat_lahir' => $request->tempat_lahir,
+      'tanggal_lahir' => $request->tanggal_lahir,
+      'jenis_kelamin' => $request->jenis_kelamin,
+      'agama' => $request->agama,
+      'alamat' => $request->alamat,
+      'no_hp' => $request->no_hp,
+      'jabatan_id' => $request->jabatan_id,
+      'tunjangan_id' => $request->tunjangan_id,
+    ]);
+
+    if ($save) {
+      return redirect()->route('admin.guru.index')->with('success', 'Data Guru berhasil diperbarui');
+    } else {
+      return redirect()->route('admin.guru.index')->with('error', 'Data Guru gagal diperbarui');
+    }
   }
 
   /**
