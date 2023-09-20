@@ -40,7 +40,7 @@
             </li>
 
             @if (Auth::user()->hasRole('admin'))
-                <li class="hs-accordion {{ request()->is('dashboard/jabatan') || request()->is('dashboard/jabatan/*') || request()->is('dashboard/tunjangan') || request()->is('dashboard/tunjangan/*') ? 'active' : '' }}"
+                <li class="hs-accordion {{ request()->is('dashboard/guru') || request()->is('dashboard/guru/*') || request()->is('dashboard/jabatan') || request()->is('dashboard/jabatan/*') || request()->is('dashboard/tunjangan') || request()->is('dashboard/tunjangan/*') ? 'active' : '' }}"
                     id="master-data-accordion">
                     <a class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
                         href="javascript:;">
@@ -69,8 +69,14 @@
                     </a>
 
                     <div id="master-data-accordion-child"
-                        class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 {{ request()->is('dashboard/jabatan') || request()->is('dashboard/jabatan/*') || request()->is('dashboard/tunjangan') || request()->is('dashboard/tunjangan/*') ? 'block' : 'hidden' }}">
+                        class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 {{ request()->is('dashboard/guru') || request()->is('dashboard/guru/*') || request()->is('dashboard/jabatan') || request()->is('dashboard/jabatan/*') || request()->is('dashboard/tunjangan') || request()->is('dashboard/tunjangan/*') ? 'block' : 'hidden' }}">
                         <ul class="pt-2 pl-2">
+                            <li>
+                                <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md {{ request()->is('dashboard/guru') || request()->is('dashboard/guru/*') ? 'bg-gray-100 dark:bg-gray-900 dark:text-white' : 'hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300' }}"
+                                    href="{{ route('admin.guru.index') }}">
+                                    Data Guru
+                                </a>
+                            </li>
                             <li>
                                 <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md {{ request()->is('dashboard/jabatan') || request()->is('dashboard/jabatan/*') ? 'bg-gray-100 dark:bg-gray-900 dark:text-white' : 'hover:bg-gray-100 dark:bg-gray-800 dark:text-slate-400 dark:hover:text-slate-300' }}"
                                     href="{{ route('admin.jabatan.index') }}">

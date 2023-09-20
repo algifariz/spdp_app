@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GuruController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TunjanganController;
@@ -24,6 +25,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['au
 Route::prefix('dashboard')->middleware(['auth', 'role:admin'])->group(fn () => [
   Route::resource('jabatan', JabatanController::class)->only(['index', 'edit', 'update'])->names('admin.jabatan'),
   Route::resource('tunjangan', TunjanganController::class)->only(['index', 'edit', 'update'])->names('admin.tunjangan'),
+  Route::resource('guru', GuruController::class)->names('admin.guru'),
 ]);
 
 Route::middleware('auth')->group(function () {

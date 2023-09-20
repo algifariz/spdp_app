@@ -23,6 +23,15 @@ class UserTableSeeder extends Seeder
       'name' => 'Guru',
       'email' => 'guru@gmail.com',
       'password' => bcrypt('password'),
+      'nuptk' => 'bNiQEpn487XL',
+      'tempat_lahir' => 'Sukabumi',
+      'tanggal_lahir' => '2000-08-30',
+      'jenis_kelamin' => 'L',
+      'agama' => 'Islam',
+      'alamat' => 'Jl. Raya Sukabumi',
+      'no_hp' => '081234567890',
+      'jabatan_id' => 1,
+      'tunjangan_id' => 1,
     ]);
     $guru->assignRole('guru');
   }

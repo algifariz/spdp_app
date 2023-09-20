@@ -19,4 +19,9 @@ class Tunjangan extends Model
   protected $fillable = [
     'nominal'
   ];
+
+  public function user()
+  {
+    return $this->hasOne(User::class);
+  }
 }

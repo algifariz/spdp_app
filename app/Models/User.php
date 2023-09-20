@@ -43,4 +43,14 @@ class User extends Authenticatable
     'email_verified_at' => 'datetime',
     'password' => 'hashed',
   ];
+
+  public function jabatan()
+  {
+    return $this->belongsTo(Jabatan::class);
+  }
+
+  public function tunjangan()
+  {
+    return $this->belongsTo(Tunjangan::class);
+  }
 }
