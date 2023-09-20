@@ -26,7 +26,7 @@
                                     Data Guru
                                 </h3>
                                 <p class="mt-2 text-gray-800 dark:text-gray-400">
-                                    0
+                                    {{ $data->metrics_guru }}
                                 </p>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                                     Jumlah Jabatan
                                 </h3>
                                 <p class="mt-2 text-gray-800 dark:text-gray-400">
-                                    0
+                                    {{ $data->metrics_jabatan }}
                                 </p>
                             </div>
                         </div>
@@ -76,7 +76,7 @@
                                     Jumlah Tunjangan
                                 </h3>
                                 <p class="mt-2 text-gray-800 dark:text-gray-400">
-                                    0
+                                    {{ $data->metrics_tunjangan }}
                                 </p>
                             </div>
                         </div>
@@ -112,7 +112,7 @@
                                     QR Generated
                                 </h3>
                                 <p class="mt-2 text-gray-800 dark:text-gray-400">
-                                    0
+                                    {{ $data->metrics_qr }}
                                 </p>
                             </div>
                         </div>
