@@ -176,10 +176,6 @@
                                                                     Actions
                                                                 </span>
                                                                 <a class="flex items-center px-3 py-2 text-sm text-gray-800 rounded-md gap-x-3 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                                                    href="{{ route('admin.jam-mengajar.show', $item->id) }}">
-                                                                    Detail
-                                                                </a>
-                                                                <a class="flex items-center px-3 py-2 text-sm text-gray-800 rounded-md gap-x-3 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
                                                                     href="{{ route('admin.jam-mengajar.edit', $item->id) }}">
                                                                     Edit
                                                                 </a>
