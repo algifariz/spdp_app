@@ -63,6 +63,12 @@ class GuruController extends Controller
    */
   public function destroy(User $user)
   {
-    //
+    $delete = $user->delete();
+
+    if ($delete) {
+      return redirect()->route('admin.guru.index')->with('success', 'Data Guru berhasil dihapus');
+    } else {
+      return redirect()->route('admin.guru.index')->with('error', 'Data Guru gagal dihapus');
+    }
   }
 }

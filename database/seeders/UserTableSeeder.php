@@ -34,5 +34,21 @@ class UserTableSeeder extends Seeder
       'tunjangan_id' => 1,
     ]);
     $guru->assignRole('guru');
+
+    $guru_experimental = \App\Models\User::create([
+      'name' => 'Guru Experimental',
+      'email' => 'guruexperimental@gmail.com',
+      'password' => bcrypt('password'),
+      'nuptk' => '5KaQdm64cuaR',
+      'tempat_lahir' => 'Sukabumi',
+      'tanggal_lahir' => '2000-08-20',
+      'jenis_kelamin' => 'L',
+      'agama' => 'Islam',
+      'alamat' => 'Jl. Raya Sukabumi',
+      'no_hp' => '081234567890',
+      'jabatan_id' => 2,
+      'tunjangan_id' => 2,
+    ]);
+    $guru_experimental->assignRole('guru');
   }
 }

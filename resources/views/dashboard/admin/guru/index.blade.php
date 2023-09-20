@@ -155,10 +155,32 @@
                                                         <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden mt-2 divide-y divide-gray-200 min-w-[10rem] z-10 bg-white shadow-2xl rounded-lg p-2 dark:divide-gray-700 dark:bg-gray-800 dark:border dark:border-gray-700"
                                                             aria-labelledby="hs-table-dropdown-1">
                                                             <div class="py-2 first:pt-0 last:pb-0">
+                                                                <span
+                                                                    class="block px-3 py-2 text-xs font-medium text-gray-400 uppercase dark:text-gray-600">
+                                                                    Actions
+                                                                </span>
                                                                 <a class="flex items-center px-3 py-2 text-sm text-gray-800 rounded-md gap-x-3 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                                                    href="{{ route('admin.jabatan.edit', $item->id) }}">
+                                                                    href="{{ route('admin.guru.show', $item->id) }}">
+                                                                    Detail
+                                                                </a>
+                                                                <a class="flex items-center px-3 py-2 text-sm text-gray-800 rounded-md gap-x-3 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                                                    href="{{ route('admin.guru.edit', $item->id) }}">
                                                                     Edit
                                                                 </a>
+                                                            </div>
+                                                            <div class="py-2 first:pt-0 last:pb-0">
+                                                                <form
+                                                                    action="{{ route('admin.guru.destroy', $item->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+
+                                                                    <div class="flex items-center px-3 py-2 text-sm text-red-600 rounded-md gap-x-3 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700 dark:hover:text-gray-300 hover:cursor-pointer"
+                                                                        onclick="event.preventDefault();
+                                                                        this.closest('form').submit();">
+                                                                        Delete
+                                                                    </div>
+                                                                </form>
                                                             </div>
                                                         </div>
                                                     </div>
