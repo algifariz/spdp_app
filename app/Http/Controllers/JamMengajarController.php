@@ -109,6 +109,12 @@ class JamMengajarController extends Controller
    */
   public function destroy(JamMengajar $jamMengajar)
   {
-    //
+    $delete = $jamMengajar->delete();
+
+    if ($delete) {
+      return redirect()->route('admin.jam-mengajar.index')->with('success', 'Berhasil menghapus jam mengajar');
+    } else {
+      return redirect()->route('admin.jam-mengajar.index')->with('error', 'Gagal menghapus jam mengajar');
+    }
   }
 }
