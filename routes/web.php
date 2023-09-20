@@ -20,6 +20,10 @@ Route::get('/dashboard', function () {
   return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::prefix('dashboard')->middleware(['auth', 'role:admin'])->group(fn () => [
+  Route::resource('jabatan', App\Http\Controllers\JabatanController::class)->only(['index', 'edit', 'update'])->names('admin.jabatan'),
+]);
+
 Route::middleware('auth')->group(function () {
   Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
   Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
