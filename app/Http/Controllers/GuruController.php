@@ -39,7 +39,9 @@ class GuruController extends Controller
    */
   public function show(User $user)
   {
-    //
+    return view('dashboard.admin.guru.show', [
+      'guru' => $user,
+    ]);
   }
 
   /**
