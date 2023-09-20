@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TunjanganController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +23,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::prefix('dashboard')->middleware(['auth', 'role:admin'])->group(fn () => [
-  Route::resource('jabatan', App\Http\Controllers\JabatanController::class)->only(['index', 'edit', 'update'])->names('admin.jabatan'),
+  Route::resource('jabatan', JabatanController::class)->only(['index', 'edit', 'update'])->names('admin.jabatan'),
+  Route::resource('tunjangan', TunjanganController::class)->only(['index', 'edit', 'update'])->names('admin.tunjangan'),
 ]);
 
 Route::middleware('auth')->group(function () {
