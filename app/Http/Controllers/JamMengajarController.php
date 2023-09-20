@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\JamMengajar;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class JamMengajarController extends Controller
@@ -29,7 +30,15 @@ class JamMengajarController extends Controller
    */
   public function create()
   {
-    //
+    $guru = User::all();
+    $jamMengajar = JamMengajar::all();
+    $availableGuruDoesntHaveJamMengajar = $guru->filter(function ($item) use ($jamMengajar) {
+      return !$jamMengajar->pluck('nuptk')->contains($item->nuptk) && !$item->hasRole('admin');
+    });
+    $data = (object) [
+      'guru' => $availableGuruDoesntHaveJamMengajar,
+    ];
+    return view('dashboard.admin.jam-mengajar.create', compact('data'));
   }
 
   /**
@@ -37,7 +46,38 @@ class JamMengajarController extends Controller
    */
   public function store(Request $request)
   {
-    //
+    $validation = [
+      'nuptk' => 'required|exists:users,nuptk',
+      'hour' => 'required|numeric',
+    ];
+
+    $days = [];
+    for ($i = 1; $i <= 5; $i++) {
+      if (in_array(
+        strtolower($request->input('days-' . $i)),
+        ['senin', 'selasa', 'rabu', 'kamis', 'jumat']
+      )) {
+        array_push($days, strtolower($request->input('days-' . $i)));
+      }
+    }
+
+    if (count($days) == 0) {
+      $validation['days'] = 'required|array';
+      $request->validate($validation);
+    }
+
+    $request->validate($validation);
+    $save = JamMengajar::create([
+      'nuptk' => $request->nuptk,
+      'hour' => $request->hour,
+      'days' => json_encode($days),
+    ]);
+
+    if ($save) {
+      return redirect()->route('admin.jam-mengajar.index')->with('success', 'Berhasil menambahkan jam mengajar');
+    } else {
+      return redirect()->route('admin.jam-mengajar.index')->with('error', 'Gagal menambahkan jam mengajar');
+    }
   }
 
   /**
