@@ -47,6 +47,7 @@ class GuruController extends Controller
       'jenis_kelamin' => 'required|in:L,P',
       'agama' => 'required|in:Islam,Kristen,Katolik,Hindu,Budha,Konghucu',
       'alamat' => 'required|string',
+      'no_hp' => 'required|string',
       'jabatan_id' => 'required|exists:jabatan,id',
       'tunjangan_id' => 'required|exists:tunjangan,id',
     ]);
@@ -60,6 +61,7 @@ class GuruController extends Controller
       'jenis_kelamin' => $request->jenis_kelamin,
       'agama' => $request->agama,
       'alamat' => $request->alamat,
+      'no_hp' => $request->no_hp,
       'jabatan_id' => $request->jabatan_id,
       'tunjangan_id' => $request->tunjangan_id,
       'password' => bcrypt('password'),
