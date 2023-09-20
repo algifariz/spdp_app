@@ -25,7 +25,7 @@ class JabatanController extends Controller
    */
   public function edit(Jabatan $jabatan)
   {
-    //
+    return view('dashboard.admin.jabatan.edit', compact('jabatan'));
   }
 
   /**
@@ -33,6 +33,18 @@ class JabatanController extends Controller
    */
   public function update(Request $request, Jabatan $jabatan)
   {
-    //
+    $request->validate([
+      'nominal' => 'required|numeric',
+    ]);
+
+    $save = $jabatan->update([
+      'nominal' => $request->nominal,
+    ]);
+
+    if ($save) {
+      return redirect()->route('admin.jabatan.index')->with('success', 'Data Jabatan berhasil diperbarui');
+    } else {
+      return redirect()->route('admin.jabatan.index')->with('error', 'Data Jabatan gagal diperbarui');
+    }
   }
 }
