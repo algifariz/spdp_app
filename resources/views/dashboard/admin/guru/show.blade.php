@@ -29,7 +29,7 @@
                     <label for="input-label" class="block mb-2 text-sm font-medium dark:text-white">NUPTK</label>
                     <input type="text" name="nuptk"
                         class="block w-full px-4 py-3 text-sm border-gray-200 rounded-md pointer-events-none opacity-70 bg-gray-50 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-                        placeholder="ID NUPTK" value="{{ $guru->nuptk }}" disabled readonly>
+                        placeholder="NUPTK Guru" value="{{ $guru->nuptk }}" disabled readonly>
                 </div>
                 <div class="form-group">
                     <label for="input-label" class="block mb-2 text-sm font-medium dark:text-white">Tempat Lahir</label>
