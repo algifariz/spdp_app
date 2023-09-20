@@ -27,7 +27,7 @@ Route::prefix('dashboard')->middleware(['auth', 'role:admin'])->group(fn () => [
   Route::resource('jabatan', JabatanController::class)->only(['index', 'edit', 'update'])->names('admin.jabatan'),
   Route::resource('tunjangan', TunjanganController::class)->only(['index', 'edit', 'update'])->names('admin.tunjangan'),
   Route::resource('guru', GuruController::class)->parameter('guru', 'user')->names('admin.guru'),
-  Route::resource('jam-mengajar', JamMengajarController::class)->names('admin.jam-mengajar'),
+  Route::resource('jam-mengajar', JamMengajarController::class)->except(['show'])->names('admin.jam-mengajar'),
 ]);
 
 Route::middleware('auth')->group(function () {

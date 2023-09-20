@@ -81,14 +81,6 @@ class JamMengajarController extends Controller
   }
 
   /**
-   * Display the specified resource.
-   */
-  public function show(JamMengajar $jamMengajar)
-  {
-    //
-  }
-
-  /**
    * Show the form for editing the specified resource.
    */
   public function edit(JamMengajar $jamMengajar)
