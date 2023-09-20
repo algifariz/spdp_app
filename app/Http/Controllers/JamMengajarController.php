@@ -49,6 +49,7 @@ class JamMengajarController extends Controller
     $validation = [
       'nuptk' => 'required|exists:users,nuptk',
       'hour' => 'required|numeric',
+      'days' => 'required|array',
     ];
 
     $days = [];
@@ -61,12 +62,11 @@ class JamMengajarController extends Controller
       }
     }
 
-    if (count($days) == 0) {
-      $validation['days'] = 'required|array';
-      $request->validate($validation);
+    if (count($days) > 0) {
+      $validation['days'] = $days;
     }
-
     $request->validate($validation);
+
     $save = JamMengajar::create([
       'nuptk' => $request->nuptk,
       'hour' => $request->hour,
