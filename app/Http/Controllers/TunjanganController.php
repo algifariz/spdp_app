@@ -25,7 +25,7 @@ class TunjanganController extends Controller
    */
   public function edit(Tunjangan $tunjangan)
   {
-    //
+    return view('dashboard.admin.tunjangan.edit', compact('tunjangan'));
   }
 
   /**
@@ -33,6 +33,18 @@ class TunjanganController extends Controller
    */
   public function update(Request $request, Tunjangan $tunjangan)
   {
-    //
+    $request->validate([
+      'nominal' => 'required|numeric',
+    ]);
+
+    $save = $tunjangan->update([
+      'nominal' => $request->nominal,
+    ]);
+
+    if ($save) {
+      return redirect()->route('admin.tunjangan.index')->with('success', 'Data Tunjangan berhasil diperbarui');
+    } else {
+      return redirect()->route('admin.tunjangan.index')->with('error', 'Data Tunjangan gagal diperbarui');
+    }
   }
 }
