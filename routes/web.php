@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\JabatanController;
+use App\Http\Controllers\JamMengajarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TunjanganController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,7 @@ Route::prefix('dashboard')->middleware(['auth', 'role:admin'])->group(fn () => [
   Route::resource('jabatan', JabatanController::class)->only(['index', 'edit', 'update'])->names('admin.jabatan'),
   Route::resource('tunjangan', TunjanganController::class)->only(['index', 'edit', 'update'])->names('admin.tunjangan'),
   Route::resource('guru', GuruController::class)->parameter('guru', 'user')->names('admin.guru'),
+  Route::resource('jam-mengajar', JamMengajarController::class)->names('admin.jam-mengajar'),
 ]);
 
 Route::middleware('auth')->group(function () {

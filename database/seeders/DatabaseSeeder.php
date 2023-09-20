@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
       UserTableSeeder::class,
       JabatanTableSeeder::class,
       TunjanganTableSeeder::class,
+      JamMengajarTableSeeder::class,
     ]);
   }
 }

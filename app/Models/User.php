@@ -64,4 +64,9 @@ class User extends Authenticatable
   {
     return $this->belongsTo(Tunjangan::class);
   }
+
+  public function jamMengajar()
+  {
+    return $this->hasMany(JamMengajar::class);
+  }
 }
