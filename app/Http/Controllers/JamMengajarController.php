@@ -85,7 +85,22 @@ class JamMengajarController extends Controller
    */
   public function edit(JamMengajar $jamMengajar)
   {
-    //
+    $jamMengajar->days = json_decode($jamMengajar->days);
+    $allGuru = User::all();
+    $allJamMengajar = JamMengajar::all();
+
+    $currentGuru = $allGuru->where('nuptk', $jamMengajar->nuptk)->first();
+    $availableGuruDoesntHaveJamMengajar = $allGuru->filter(function ($item) use ($allJamMengajar, $currentGuru) {
+      return !$allJamMengajar->pluck('nuptk')->contains($item->nuptk) && !$item->hasRole('admin') && $item->nuptk != $currentGuru->nuptk;
+    });
+    $availableGuruDoesntHaveJamMengajar->prepend($currentGuru);
+
+    $data = (object) [
+      'jamMengajar' => $jamMengajar,
+      'guru' => $availableGuruDoesntHaveJamMengajar
+    ];
+
+    return view('dashboard.admin.jam-mengajar.edit', compact('data'));
   }
 
   /**
@@ -93,7 +108,38 @@ class JamMengajarController extends Controller
    */
   public function update(Request $request, JamMengajar $jamMengajar)
   {
-    //
+    $validation = [
+      'nuptk' => 'required|exists:users,nuptk',
+      'hour' => 'required|numeric',
+      'days' => 'required|array',
+    ];
+
+    $days = [];
+    for ($i = 1; $i <= 5; $i++) {
+      if (in_array(
+        strtolower($request->input('days-' . $i)),
+        ['senin', 'selasa', 'rabu', 'kamis', 'jumat']
+      )) {
+        array_push($days, strtolower($request->input('days-' . $i)));
+      }
+    }
+
+    if (count($days) > 0) {
+      $validation['days'] = $days;
+    }
+    $request->validate($validation);
+
+    $save = $jamMengajar->update([
+      'nuptk' => $request->nuptk,
+      'hour' => $request->hour,
+      'days' => json_encode($days),
+    ]);
+
+    if ($save) {
+      return redirect()->route('admin.jam-mengajar.index')->with('success', 'Berhasil mengubah jam mengajar');
+    } else {
+      return redirect()->route('admin.jam-mengajar.index')->with('error', 'Gagal mengubah jam mengajar');
+    }
   }
 
   /**
