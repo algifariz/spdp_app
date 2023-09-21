@@ -33,7 +33,13 @@
                             </option>
                         @endforeach
                     </select>
+                    @error('nuptk')
+                        <p class="mt-2 text-sm text-red-600" id="hs-validation-name-error-helper">
+                            {{ $message }}
+                        </p>
+                    @enderror
                 </div>
+
                 <div class="form-group">
                     <label for="input-label" class="block mb-2 text-sm font-medium dark:text-white">
                         Total Jam Mengajar
