@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GeneratedQR;
 use App\Models\Jabatan;
 use App\Models\JamMengajar;
 use App\Models\Tunjangan;
@@ -38,7 +39,7 @@ class DashboardController extends Controller
       $jamMengajar = JamMengajar::where('nuptk', $user->nuptk)->first();
 
       $data = (object) [
-        'metrics_qr' => 0,
+        'metrics_qr' => GeneratedQR::where('nuptk', Auth::user()->nuptk)->count() ?? 0,
         'is_default_password' => password_verify('password', $user->password) ? true : false,
         'is_have_jam_mengajar' => $jamMengajar ? true : false,
       ];
