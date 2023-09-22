@@ -48,8 +48,9 @@
                                 Pemberitahuan
                             </h3>
                             <div class="mt-1 text-sm text-yellow-700">
-                                Password anda masih default, silahkan ganti password anda <a href="#"
-                                    class="text-yellow-700 underline">di sini</a>.
+                                Password anda masih default, silahkan ganti password anda <a
+                                    href="{{ route('guru.profile.index') }}" class="text-yellow-700 underline">di
+                                    sini</a>.
                             </div>
                         </div>
                     </div>
