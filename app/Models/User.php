@@ -69,4 +69,9 @@ class User extends Authenticatable
   {
     return $this->hasMany(JamMengajar::class);
   }
+
+  public function generatedQR()
+  {
+    return $this->hasMany(GeneratedQR::class);
+  }
 }
