@@ -30,9 +30,8 @@ Route::prefix('dashboard')->middleware(['auth', 'role:admin'])->group(fn () => [
   Route::resource('jam-mengajar', JamMengajarController::class)->except(['show'])->names('admin.jam-mengajar'),
 ]);
 
-Route::middleware('auth')->group(function () {
-  Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-  Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-});
+Route::prefix('dashboard')->middleware(['auth', 'role:guru'])->group(fn () => [
+  Route::resource('profile', ProfileController::class)->only(['index', 'update'])->parameter('profile', 'user')->names('guru.profile'),
+]);
 
 require __DIR__ . '/auth.php';

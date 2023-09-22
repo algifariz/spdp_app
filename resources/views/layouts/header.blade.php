@@ -26,7 +26,7 @@
                         <div class="py-2 mt-2 first:pt-0 last:pb-0">
                             @if (Auth::user()->hasRole('guru'))
                                 <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                    href="#">
+                                    href="{{ route('guru.profile.index') }}">
                                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24"
                                         height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
