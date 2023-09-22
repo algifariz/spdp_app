@@ -34,8 +34,11 @@ class DashboardController extends Controller
         $data->availableGuruDoesntHaveJamMengajar = $availableGuruDoesntHaveJamMengajar->count();
       }
     } else {
+      $user = User::where('id', Auth::user()->id)->first();
+
       $data = (object) [
         'metrics_qr' => 0,
+        'is_default_password' => password_verify('password', $user->password) ? true : false,
       ];
     }
 
