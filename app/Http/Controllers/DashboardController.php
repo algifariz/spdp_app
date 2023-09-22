@@ -35,10 +35,12 @@ class DashboardController extends Controller
       }
     } else {
       $user = User::where('id', Auth::user()->id)->first();
+      $jamMengajar = JamMengajar::where('nuptk', $user->nuptk)->first();
 
       $data = (object) [
         'metrics_qr' => 0,
         'is_default_password' => password_verify('password', $user->password) ? true : false,
+        'is_have_jam_mengajar' => $jamMengajar ? true : false,
       ];
     }
 
