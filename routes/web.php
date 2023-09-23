@@ -33,7 +33,7 @@ Route::prefix('dashboard')->middleware(['auth', 'role:admin'])->group(fn () => [
 
 Route::prefix('dashboard')->middleware(['auth', 'role:guru'])->group(fn () => [
   Route::resource('profile', ProfileController::class)->only(['index', 'update'])->parameter('profile', 'user')->names('guru.profile'),
-  Route::resource('generated-qr', GeneratedQRController::class)->only(['index', 'store', 'show'])->names('guru.generated-qr'),
+  Route::resource('generated-qr', GeneratedQRController::class)->only(['index', 'store'])->names('guru.generated-qr'),
 ]);
 
 require __DIR__ . '/auth.php';

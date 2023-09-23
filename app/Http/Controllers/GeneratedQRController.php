@@ -66,12 +66,4 @@ class GeneratedQRController extends Controller
       return redirect()->back()->with('error', 'QR Code gagal dibuat');
     }
   }
-
-  /**
-   * Display the specified resource.
-   */
-  public function show(GeneratedQR $generatedQR)
-  {
-    //
-  }
 }
