@@ -207,7 +207,9 @@
                 </div>
             </div>
 
-            {{ $data->links() }}
+            @if (isset($data) && count($data) > 0)
+                {{ $data->links() }}
+            @endif
         </div>
     </div>
 </x-app-layout>
