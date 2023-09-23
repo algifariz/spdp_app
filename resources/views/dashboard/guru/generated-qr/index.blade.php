@@ -162,7 +162,8 @@
                                         </tr>
                                     @endif
 
-                                    @foreach ($data as $item)
+                                    {{-- @foreach ($data as $item) add index --}}
+                                    @foreach ($data as $i => $item)
                                         <tr>
                                             <td
                                                 class="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">
@@ -193,7 +194,7 @@
                                                             aria-labelledby="hs-table-dropdown-1">
                                                             <div class="py-2 first:pt-0 last:pb-0">
                                                                 <div class="flex items-center px-3 py-2 text-sm text-gray-800 rounded-md cursor-pointer gap-x-3 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                                                    data-hs-overlay="{{ '#hs-vertically-centered-modal-' . $item->hash }}">
+                                                                    data-hs-overlay="{{ '#hs-vertically-centered-modal-' . $item->nuptk . '-' . $i }}">
                                                                     Show QR Code
                                                                 </div>
                                                             </div>
@@ -203,7 +204,7 @@
                                             </td>
                                         </tr>
 
-                                        <div id="{{ 'hs-vertically-centered-modal-' . $item->hash }}"
+                                        <div id="{{ 'hs-vertically-centered-modal-' . $item->nuptk . '-' . $i }}"
                                             class="hs-overlay hidden w-full h-full fixed top-0 left-0 z-[70] overflow-x-hidden overflow-y-auto">
                                             <div
                                                 class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto min-h-[calc(100%-3.5rem)] flex items-center justify-center">
@@ -216,7 +217,7 @@
                                                         </h3>
                                                         <button type="button"
                                                             class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-sm text-gray-500 transition-all rounded-md hs-dropdown-toggle hover:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-gray-700 dark:focus:ring-offset-gray-800"
-                                                            data-hs-overlay="{{ '#hs-vertically-centered-modal-' . $item->hash }}">
+                                                            data-hs-overlay="{{ '#hs-vertically-centered-modal-' . $item->nuptk . '-' . $i }}">
                                                             <span class="sr-only">Close</span>
                                                             <svg class="w-3.5 h-3.5" width="8" height="8"
                                                                 viewBox="0 0 8 8" fill="none"
