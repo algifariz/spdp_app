@@ -74,4 +74,9 @@ class User extends Authenticatable
   {
     return $this->hasMany(GeneratedQR::class);
   }
+
+  public function presensi()
+  {
+    return $this->hasMany(Presensi::class);
+  }
 }

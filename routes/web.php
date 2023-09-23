@@ -5,6 +5,7 @@ use App\Http\Controllers\GeneratedQRController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\JamMengajarController;
+use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScanController;
 use App\Http\Controllers\TunjanganController;
@@ -31,6 +32,7 @@ Route::prefix('dashboard')->middleware(['auth', 'role:admin'])->group(fn () => [
   Route::resource('guru', GuruController::class)->parameter('guru', 'user')->names('admin.guru'),
   Route::resource('jam-mengajar', JamMengajarController::class)->except(['show'])->names('admin.jam-mengajar'),
   Route::resource('scan', ScanController::class)->only(['index', 'store'])->names('admin.scan'),
+  Route::resource('presensi', PresensiController::class)->only(['index'])->names('admin.presensi'),
 ]);
 
 Route::prefix('dashboard')->middleware(['auth', 'role:guru'])->group(fn () => [
