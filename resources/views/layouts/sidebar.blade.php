@@ -40,6 +40,21 @@
             </li>
 
             @if (Auth::user()->hasRole('admin'))
+                <li>
+                    <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 {{ request()->is('dashboard/scan') ? 'bg-gray-100 dark:bg-gray-900 dark:text-white' : 'dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300' }}"
+                        href="{{ route('admin.scan.index') }}">
+                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-scan-line">
+                            <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+                            <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+                            <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+                            <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+                            <line x1="7" x2="17" y1="12" y2="12" />
+                        </svg>
+                        Scan QR Code
+                    </a>
+                </li>
                 <li class="hs-accordion {{ request()->is('dashboard/guru') || request()->is('dashboard/guru/*') || request()->is('dashboard/jabatan') || request()->is('dashboard/jabatan/*') || request()->is('dashboard/tunjangan') || request()->is('dashboard/tunjangan/*') || request()->is('dashboard/jam-mengajar') || request()->is('dashboard/jam-mengajar/*') ? 'active' : '' }}"
                     id="master-data-accordion">
                     <a class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"
