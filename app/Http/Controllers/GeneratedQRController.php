@@ -7,6 +7,7 @@ use App\Models\JamMengajar;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class GeneratedQRController extends Controller
 {
@@ -56,7 +57,7 @@ class GeneratedQRController extends Controller
 
     $generatedQR = GeneratedQR::create([
       'nuptk' => auth()->user()->nuptk,
-      'hash' => md5(auth()->user()->nuptk . Carbon::now()->locale('id')),
+      'hash' => Crypt::encryptString(auth()->user()->nuptk . '-' . Carbon::now()->locale('id')->addHours(7)->format('dmY')),
       'expiry' => Carbon::now()->locale('id')->addDay()->startOfDay(),
     ]);
 
