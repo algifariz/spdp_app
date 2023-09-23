@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\GeneratedQR;
 use App\Models\JamMengajar;
+use App\Models\Presensi;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -24,19 +25,17 @@ class ScanController extends Controller
    */
   public function store(Request $request)
   {
-    // return response()->json([
-    //   'status' => 200,
-    //   'message' => 'Berhasil melakukan validasi',
-    //   'data' => $request->all(),
-    // ]);
-
-    // - decode the request->hash
-    // - Cek guru ada di table guru
-    // - Cek guru memiliki jam mengajar
-    // - Cek guru ada jam mengajar di hari ini
-    // - Cek qr code masih berlaku atau engga
-    // - Cek checkin atau checkout
-    // - Jika checkout harus lebih dari jam 15.00
+    /**
+     * 1. Decode the request->hash using Crypt::decryptString
+     * 2. Check if nuptk exists in table guru
+     * 3. Then check if nuptk have jam mengajar
+     * 4. Then check if nuptk have jam mengajar today in indonesia locale using Carbon
+     * 5. Then check if qr code still valid
+     * 6. Then check in table presensi if user already check in or check out
+     * 7. If check out should be greater than 15.00
+     * 8. If check in and add to table presensi
+     * 9. If check out and update table presensi
+     */
 
     $hash = $request->qr_code;
 
@@ -90,14 +89,58 @@ class ScanController extends Controller
       ]);
     }
 
+    // Then check in table presensi if user already check in or check out
+    $presensi = Presensi::where('nuptk', $nuptk)->whereDate('created_at', Carbon::now()->locale('id'))->first();
+
+    if (!$presensi) {
+      // check checkin not greater than 15.00
+      if (Carbon::now()->locale('id')->addHour(7)->greaterThan(Carbon::now()->locale('id')->setHour(15)->setMinute(0)->setSecond(0))) {
+        return response()->json([
+          'status' => 404,
+          'message' => 'Anda terlambat melakukan absensi masuk',
+        ]);
+      }
+
+      // check in and add to table presensi
+      $presensi = Presensi::create([
+        'nuptk' => $nuptk,
+        'date' => Carbon::now()->locale('id')->format('Y-m-d'),
+        'time_in' => Carbon::now()->locale('id')->addHours(7)->format('H:i:s'),
+      ]);
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Berhasil melakukan absensi masuk',
+        'data' => (object) [
+          'presensi' => $presensi,
+        ],
+      ]);
+    }
+
+    if ($presensi->time_out) {
+      return response()->json([
+        'status' => 404,
+        'message' => 'Anda sudah melakukan absensi pulang hari ini',
+      ]);
+    }
+
+    // check out and update table presensi should be greater than 15.00
+    if (Carbon::now()->locale('id')->addHour(7)->lessThan(Carbon::now()->locale('id')->setHour(15)->setMinute(0)->setSecond(0))) {
+      return response()->json([
+        'status' => 404,
+        'message' => 'Silahkan melakukan absensi pulang setelah jam 15.00',
+      ]);
+    }
+
+    $presensi->update([
+      'time_out' => Carbon::now()->locale('id')->addHours(7)->format('H:i:s'),
+    ]);
+
     return response()->json([
       'status' => 200,
       'message' => 'Berhasil melakukan validasi',
       'data' => (object) [
-        'guru' => $guru,
-        'jam_mengajar' => $jamMengajar,
-        'today' => $today,
-        'generated_qr' => $generatedQR,
+        'presensi' => $presensi,
       ],
     ]);
   }
