@@ -26,9 +26,7 @@ class GeneratedQRController extends Controller
       return redirect()->route('dashboard');
     }
 
-    $data = (object) [
-      'generatedQRs' => GeneratedQR::where('nuptk', auth()->user()->nuptk)->limit(10)->get(),
-    ];
+    $data = GeneratedQR::where('nuptk', auth()->user()->nuptk)->with('user')->limit(10)->get();
 
     return view('dashboard.guru.generated-qr.index', compact('data'));
   }
