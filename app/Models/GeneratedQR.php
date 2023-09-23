@@ -12,6 +12,7 @@ class GeneratedQR extends Model
   protected $table = 'generated_qr';
 
   protected $fillable = [
+    'nuptk',
     'hash',
     'expiry',
   ];
