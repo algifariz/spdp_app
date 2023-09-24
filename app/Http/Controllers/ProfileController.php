@@ -2,59 +2,67 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(Request $request): View
-    {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+  /**
+   * Display a listing of the resource.
+   */
+  public function index()
+  {
+    return view('dashboard.guru.profile.index');
+  }
+
+  /**
+   * Update the specified resource in storage.
+   */
+  public function update(Request $request, User $user)
+  {
+    $validationRules = [
+      'name' => 'required|string|max:255',
+      'tempat_lahir' => 'required|string|max:255',
+      'tanggal_lahir' => 'required|date',
+      'jenis_kelamin' => 'required|in:L,P',
+      'agama' => 'required|in:Islam,Kristen,Katolik,Hindu,Budha,Konghucu',
+      'alamat' => 'required|string',
+      'no_hp' => 'required|string',
+    ];
+
+    $passwordRules = [
+      'current_password' => 'required|string|min:8',
+      'password' => 'required|string|min:8|confirmed',
+    ];
+
+    if ($request->filled('current_password') || $request->filled('password')) {
+      $validationRules = array_merge($validationRules, $passwordRules);
+
+      if (!Hash::check($request->current_password, $user->password)) {
+        return redirect()->back()->with('error', 'Password saat ini tidak sesuai');
+      }
+
+      $user->password = Hash::make($request->password);
     }
 
-    /**
-     * Update the user's profile information.
-     */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
-    {
-        $request->user()->fill($request->validated());
+    $request->validate($validationRules);
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
+    $update = $user->update([
+      'name' => $request->name,
+      'password' => $user->password,
+      'tempat_lahir' => $request->tempat_lahir,
+      'tanggal_lahir' => $request->tanggal_lahir,
+      'jenis_kelamin' => $request->jenis_kelamin,
+      'agama' => $request->agama,
+      'alamat' => $request->alamat,
+      'no_hp' => $request->no_hp,
+    ]);
 
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    if ($update) {
+      return redirect()->back()->with('success', 'Berhasil mengubah data');
+    } else {
+      return redirect()->back()->with('error', 'Gagal mengubah data');
     }
-
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
-
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
-    }
+  }
 }
