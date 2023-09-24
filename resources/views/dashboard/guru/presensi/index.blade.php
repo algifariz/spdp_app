@@ -2,27 +2,9 @@
     <div class="flex flex-col gap-7">
         <header>
             <h1 class="block text-2xl font-bold text-gray-800 sm:text-3xl dark:text-white">
-                Laporan Presensi
+                Catatan Presensi
             </h1>
         </header>
-
-        <form action="{{ route('admin.presensi.pdf', ['month' => $month, 'year' => $year, 'time' => time()]) }}"
-            method="POST">
-            @csrf
-
-            <div class="inline-flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold text-white transition-all border border-transparent rounded-md cursor-pointer bg-emerald-500 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 w-fit"
-                onclick="event.preventDefault();
-                this.closest('form').submit();">
-                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="lucide lucide-arrow-down-to-line">
-                    <path d="M12 17V3" />
-                    <path d="m6 11 6 6 6-6" />
-                    <path d="M19 21H5" />
-                </svg>
-                Export to PDF
-            </div>
-        </form>
 
         <div
             class="flex flex-col bg-white border shadow-sm rounded-xl p-4 md:p-5 dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7] dark:text-gray-400 gap-4">
@@ -86,18 +68,22 @@
                                         </th>
                                         <th scope="col"
                                             class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase">
-                                            Total Jam Mengajar
+                                            Tanggal Presensi
                                         </th>
                                         <th scope="col"
                                             class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase">
-                                            Total Presensi
+                                            Jam Masuk
+                                        </th>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase">
+                                            Jam Keluar
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                                    @if ($guru->isEmpty())
+                                    @if ($presensi->isEmpty())
                                         <tr>
-                                            <td colspan="4">
+                                            <td colspan="5">
                                                 <div class="flex items-center justify-center">
                                                     <p class="py-8 text-gray-400">Tidak ada data.</p>
                                                 </div>
@@ -105,7 +91,7 @@
                                         </tr>
                                     @endif
 
-                                    @foreach ($guru as $item)
+                                    @foreach ($presensi as $item)
                                         <tr>
                                             <td
                                                 class="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">
@@ -113,32 +99,34 @@
                                             </td>
                                             <td
                                                 class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">
-                                                {{ $item->name }}
+                                                {{ $item->user->name }}
                                             </td>
                                             @php
-                                                $total_jam_mengajar = [];
-                                                foreach ($jamMengajar as $key => $value) {
-                                                    if ($value->nuptk == $item->nuptk) {
-                                                        $total_jam_mengajar[$value->nuptk] = $value->total_jam_mengajar;
-                                                    }
-                                                }
+                                                $date = \Carbon\Carbon::parse($item->date)
+                                                    ->locale('id')
+                                                    ->isoFormat('dddd, D MMMM Y');
                                             @endphp
                                             <td
                                                 class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">
-                                                {{ $total_jam_mengajar[$item->nuptk] ?? 0 }} Jam
+                                                {{ $date }}
                                             </td>
                                             @php
-                                                $total_presensi = [];
-                                                foreach ($jamMengajar as $key => $value) {
-                                                    if ($value->nuptk == $item->nuptk) {
-                                                        $total_presensi[$value->nuptk] = $value->total_hari_mengajar;
-                                                    }
-                                                }
+                                                $time_in = \Carbon\Carbon::parse($item->time_in)
+                                                    ->locale('id')
+                                                    ->isoFormat('HH.mm [WIB]');
                                             @endphp
                                             <td
                                                 class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">
-                                                {{ $presensi[$item->nuptk] ?? 0 }} /
-                                                {{ $total_presensi[$item->nuptk] ?? 0 }}
+                                                {{ $time_in }}
+                                            </td>
+                                            @php
+                                                $time_out = \Carbon\Carbon::parse($item->time_out)
+                                                    ->locale('id')
+                                                    ->isoFormat('HH.mm [WIB]');
+                                            @endphp
+                                            <td
+                                                class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">
+                                                {{ $item->time_out ? $time_out : 'Belum absen pulang' }}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -149,8 +137,8 @@
                 </div>
             </div>
 
-            @if (isset($guru) && count($guru) > 0)
-                {{ $guru->links() }}
+            @if (isset($presensi) && count($presensi) > 0)
+                {{ $presensi->links() }}
             @endif
         </div>
     </div>

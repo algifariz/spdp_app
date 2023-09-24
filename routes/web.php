@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', '/login');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::resource('/dashboard/presensi', PresensiController::class)->only(['index'])->names('presensi');
 
 Route::prefix('dashboard')->middleware(['auth', 'role:admin'])->group(fn () => [
   Route::resource('jabatan', JabatanController::class)->only(['index', 'edit', 'update'])->names('admin.jabatan'),
@@ -32,7 +33,6 @@ Route::prefix('dashboard')->middleware(['auth', 'role:admin'])->group(fn () => [
   Route::resource('guru', GuruController::class)->parameter('guru', 'user')->names('admin.guru'),
   Route::resource('jam-mengajar', JamMengajarController::class)->except(['show'])->names('admin.jam-mengajar'),
   Route::resource('scan', ScanController::class)->only(['index', 'store'])->names('admin.scan'),
-  Route::resource('presensi', PresensiController::class)->only(['index'])->names('admin.presensi'),
   Route::post('presensi/pdf', [PresensiController::class, 'generatePDF'])->name('admin.presensi.pdf'),
 ]);
 
