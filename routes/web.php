@@ -36,6 +36,7 @@ Route::prefix('dashboard')->middleware(['auth', 'role:admin'])->group(fn () => [
   Route::resource('scan', ScanController::class)->only(['index', 'store'])->names('admin.scan'),
   Route::post('presensi/pdf', [PresensiController::class, 'generatePDF'])->name('admin.presensi.pdf'),
   Route::resource('gaji', GajiController::class)->only(['index'])->names('admin.gaji'),
+  Route::post('gaji/pdf', [GajiController::class, 'generatePDF'])->name('admin.gaji.pdf'),
 ]);
 
 Route::prefix('dashboard')->middleware(['auth', 'role:guru'])->group(fn () => [
