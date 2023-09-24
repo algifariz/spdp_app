@@ -14,7 +14,7 @@ class PresensiController extends Controller
   /**
    * Display a listing of the resource.
    */
-  public function index()
+  public function index(Request $request)
   {
     /**
      * TODO: Show all presensi data
@@ -29,8 +29,11 @@ class PresensiController extends Controller
     $guru = Role::where('name', 'guru')->first()->users()->paginate(10);
 
     // 2. Get month and year now for default filter using Carbon, example september is 09 and year is 2023
-    $month = Carbon::now()->month;
-    $year = Carbon::now()->year;
+    $month = $request->month ?? Carbon::now()->month;
+    $year = $request->year ?? Carbon::now()->year;
+    // 2.1 Get all available month and year from presensi data then make it array and don't duplicate the value
+    $availableMonth = Presensi::selectRaw('MONTH(date) as month')->distinct()->get()->map->month->toArray();
+    $availableYear = Presensi::selectRaw('YEAR(date) as year')->distinct()->get()->map->year->toArray();
 
     // 3. Get total hari mengajar dari JamMengajar->days from each nuptk guru
     $jamMengajar = JamMengajar::all()->map(function ($item) {
@@ -47,6 +50,6 @@ class PresensiController extends Controller
       });
 
     // 5. Return view with data
-    return view('dashboard.admin.presensi.index', compact('guru', 'month', 'year', 'jamMengajar', 'presensi'));
+    return view('dashboard.admin.presensi.index', compact('guru', 'month', 'year', 'availableMonth', 'availableYear', 'jamMengajar', 'presensi'));
   }
 }
