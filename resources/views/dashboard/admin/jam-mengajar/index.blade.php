@@ -129,7 +129,7 @@
                                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                                     @if ($data->isEmpty())
                                         <tr>
-                                            <td colspan="3">
+                                            <td colspan="5">
                                                 <div class="flex items-center justify-center">
                                                     <p class="py-8 text-gray-400">Tidak ada data.</p>
                                                 </div>
