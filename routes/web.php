@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GajiController;
 use App\Http\Controllers\GeneratedQRController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\JabatanController;
@@ -34,6 +35,7 @@ Route::prefix('dashboard')->middleware(['auth', 'role:admin'])->group(fn () => [
   Route::resource('jam-mengajar', JamMengajarController::class)->except(['show'])->names('admin.jam-mengajar'),
   Route::resource('scan', ScanController::class)->only(['index', 'store'])->names('admin.scan'),
   Route::post('presensi/pdf', [PresensiController::class, 'generatePDF'])->name('admin.presensi.pdf'),
+  Route::resource('gaji', GajiController::class)->only(['index'])->names('admin.gaji'),
 ]);
 
 Route::prefix('dashboard')->middleware(['auth', 'role:guru'])->group(fn () => [
