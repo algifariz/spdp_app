@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\JamMengajar;
 use App\Models\Presensi;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -17,6 +18,16 @@ class PresensiController extends Controller
    */
   public function index(Request $request)
   {
+    $user = User::all();
+    $allJamMengajar = JamMengajar::all();
+    $availableGuruDoesntHaveJamMengajar = $user->filter(function ($item) use ($allJamMengajar) {
+      return !$allJamMengajar->pluck('nuptk')->contains($item->nuptk) && !$item->hasRole('admin');
+    });
+
+    if ($availableGuruDoesntHaveJamMengajar->count() > 0) {
+      return redirect()->route('dashboard')->with('error', 'Tidak dapat mengakses halaman presensi karena ada guru yang belum memiliki jam mengajar');
+    }
+
     /**
      * TODO: Show all presensi data
      * 1. Get all guru data from database
