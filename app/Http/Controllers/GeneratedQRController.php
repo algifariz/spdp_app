@@ -21,11 +21,11 @@ class GeneratedQRController extends Controller
     $jamMengajar = JamMengajar::where('nuptk', $user->nuptk)->first();
 
     if ($isDefaultPassword) {
-      return redirect()->route('dashboard');
+      return redirect()->route('dashboard')->with('error', 'Silahkan ubah password Anda terlebih dahulu');
     }
 
     if (!$jamMengajar) {
-      return redirect()->route('dashboard');
+      return redirect()->route('dashboard')->with('error', 'Anda belum memiliki jam mengajar, silahkan hubungi admin');
     }
 
     $data = GeneratedQR::where('nuptk', auth()->user()->nuptk)->with('user')->orderBy('created_at', 'desc')->paginate(10);
