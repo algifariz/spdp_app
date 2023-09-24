@@ -18,6 +18,17 @@
             <th>Total Jam Mengajar</th>
             <th>Total Presensi</th>
         </tr>
+
+        @if ($guru->isEmpty())
+            <tr>
+                <td colspan="4">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <p class="py-8 text-gray-400">Tidak ada data.</p>
+                    </div>
+                </td>
+            </tr>
+        @endif
+
         @foreach ($guru as $item)
             <tr>
                 <td>
