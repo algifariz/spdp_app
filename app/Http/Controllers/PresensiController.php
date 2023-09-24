@@ -68,6 +68,16 @@ class PresensiController extends Controller
 
   public function generatePDF(Request $request)
   {
+    $user = User::all();
+    $allJamMengajar = JamMengajar::all();
+    $availableGuruDoesntHaveJamMengajar = $user->filter(function ($item) use ($allJamMengajar) {
+      return !$allJamMengajar->pluck('nuptk')->contains($item->nuptk) && !$item->hasRole('admin');
+    });
+
+    if ($availableGuruDoesntHaveJamMengajar->count() > 0) {
+      return redirect()->route('dashboard')->with('error', 'Tidak dapat mengakses halaman presensi karena ada guru yang belum memiliki jam mengajar');
+    }
+
     $guru = Role::where('name', 'guru')->first()->users()->get();
     $month = $request->month ?? Carbon::now()->month;
     $year = $request->year ?? Carbon::now()->year;
