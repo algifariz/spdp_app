@@ -51,6 +51,7 @@ class PresensiController extends Controller
     $jamMengajar = JamMengajar::all()->map(function ($item) {
       return (object) [
         'nuptk' => $item->nuptk,
+        'total_jam_mengajar' => $item->hour,
         'total_hari_mengajar' => count(json_decode($item->days)) * 4,
       ];
     });
@@ -73,6 +74,7 @@ class PresensiController extends Controller
     $jamMengajar = JamMengajar::all()->map(function ($item) {
       return (object) [
         'nuptk' => $item->nuptk,
+        'total_jam_mengajar' => $item->hour,
         'total_hari_mengajar' => count(json_decode($item->days)) * 4,
       ];
     });

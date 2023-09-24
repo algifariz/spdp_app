@@ -15,6 +15,7 @@
         <tr>
             <th>NUPTK</th>
             <th>Nama Guru</th>
+            <th>Total Jam Mengajar</th>
             <th>Total Presensi</th>
         </tr>
         @foreach ($guru as $item)
@@ -24,6 +25,17 @@
                 </td>
                 <td>
                     {{ $item->name }}
+                </td>
+                @php
+                    $total_jam_mengajar = [];
+                    foreach ($jamMengajar as $key => $value) {
+                        if ($value->nuptk == $item->nuptk) {
+                            $total_jam_mengajar[$value->nuptk] = $value->total_jam_mengajar;
+                        }
+                    }
+                @endphp
+                <td>
+                    {{ $total_jam_mengajar[$item->nuptk] ?? 0 }} Jam
                 </td>
                 @php
                     $total_presensi = [];

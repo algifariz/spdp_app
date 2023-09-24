@@ -73,6 +73,10 @@
                                         </th>
                                         <th scope="col"
                                             class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase">
+                                            Total Jam Mengajar
+                                        </th>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase">
                                             Total Presensi
                                         </th>
                                     </tr>
@@ -97,6 +101,18 @@
                                             <td
                                                 class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">
                                                 {{ $item->name }}
+                                            </td>
+                                            @php
+                                                $total_jam_mengajar = [];
+                                                foreach ($jamMengajar as $key => $value) {
+                                                    if ($value->nuptk == $item->nuptk) {
+                                                        $total_jam_mengajar[$value->nuptk] = $value->total_jam_mengajar;
+                                                    }
+                                                }
+                                            @endphp
+                                            <td
+                                                class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">
+                                                {{ $total_jam_mengajar[$item->nuptk] ?? 0 }} Jam
                                             </td>
                                             @php
                                                 $total_presensi = [];
