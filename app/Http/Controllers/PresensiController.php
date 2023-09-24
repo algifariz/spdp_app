@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\JamMengajar;
 use App\Models\Presensi;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Str;
 
 class PresensiController extends Controller
 {
@@ -51,5 +52,28 @@ class PresensiController extends Controller
 
     // 5. Return view with data
     return view('dashboard.admin.presensi.index', compact('guru', 'month', 'year', 'availableMonth', 'availableYear', 'jamMengajar', 'presensi'));
+  }
+
+  public function generatePDF(Request $request)
+  {
+    $guru = Role::where('name', 'guru')->first()->users()->get();
+    $month = $request->month ?? Carbon::now()->month;
+    $year = $request->year ?? Carbon::now()->year;
+    $jamMengajar = JamMengajar::all()->map(function ($item) {
+      return (object) [
+        'nuptk' => $item->nuptk,
+        'total_hari_mengajar' => count(json_decode($item->days)) * 4,
+      ];
+    });
+    $presensi = Presensi::whereMonth('date', $month)->whereYear('date', $year)->whereNotNull('time_out')->get()->groupBy('nuptk')
+      ->map(function ($item) {
+        return $item->count();
+      });
+    $title = 'Laporan Presensi Guru';
+    $date = Carbon::now()->locale('id')->isoFormat('dddd, D MMMM Y');
+    $hour = Carbon::now()->addHours(7)->isoFormat('HH:mm [WIB]');
+    $pdf = PDF::loadview('dashboard.admin.presensi.pdf', compact('guru', 'month', 'year', 'jamMengajar', 'presensi', 'title', 'date', 'hour'));
+
+    return $pdf->download('laporan-presensi-guru-' . Str::random(16) . '.pdf');
   }
 }

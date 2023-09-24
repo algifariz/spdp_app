@@ -33,6 +33,7 @@ Route::prefix('dashboard')->middleware(['auth', 'role:admin'])->group(fn () => [
   Route::resource('jam-mengajar', JamMengajarController::class)->except(['show'])->names('admin.jam-mengajar'),
   Route::resource('scan', ScanController::class)->only(['index', 'store'])->names('admin.scan'),
   Route::resource('presensi', PresensiController::class)->only(['index'])->names('admin.presensi'),
+  Route::post('presensi/pdf', [PresensiController::class, 'generatePDF'])->name('admin.presensi.pdf'),
 ]);
 
 Route::prefix('dashboard')->middleware(['auth', 'role:guru'])->group(fn () => [

@@ -2,9 +2,27 @@
     <div class="flex flex-col gap-7">
         <header>
             <h1 class="block text-2xl font-bold text-gray-800 sm:text-3xl dark:text-white">
-                Kelola Presensi
+                Laporan Presensi
             </h1>
         </header>
+
+        <form action="{{ route('admin.presensi.pdf', ['month' => $month, 'year' => $year, 'time' => time()]) }}"
+            method="POST">
+            @csrf
+
+            <div class="inline-flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold text-white transition-all border border-transparent rounded-md cursor-pointer bg-emerald-500 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 w-fit"
+                onclick="event.preventDefault();
+                this.closest('form').submit();">
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-arrow-down-to-line">
+                    <path d="M12 17V3" />
+                    <path d="m6 11 6 6 6-6" />
+                    <path d="M19 21H5" />
+                </svg>
+                Export to PDF
+            </div>
+        </form>
 
         <div
             class="flex flex-col bg-white border shadow-sm rounded-xl p-4 md:p-5 dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7] dark:text-gray-400 gap-4">
