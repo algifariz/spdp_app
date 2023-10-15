@@ -1,9 +1,12 @@
 <header
     class="sticky top-0 inset-x-0 flex flex-wrap sm:justify-start sm:flex-nowrap z-[48] w-full bg-white border-b text-sm py-2.5 sm:py-4 lg:pl-64 dark:bg-gray-800 dark:border-gray-700">
-    <nav class="flex items-center w-full px-4 mx-auto basis-full sm:px-6 md:px-8" aria-label="Global">
-        <div class="mr-5 lg:mr-0 lg:hidden">
-            <a class="flex-none text-xl font-semibold dark:text-white" href="{{ route('dashboard') }}"
-                aria-label="Brand">SPDP</a>
+    <nav class="flex items-center w-full px-4 mx-auto basis-full sm:px- md:px-8" aria-label="Global">
+        <div class="mr-5 lg:mr-0 lg:hidden w-full">
+            <a class="flex justify items-center gap-4 text-xl font-semibold dark:text-white" href="{{ route('dashboard') }}"
+            aria-label="Brand">
+        {{-- <img src="https://th.bing.com/th?id=ODLS.b8463a37-a976-4c2d-b986-789a19753cf8&w=32&h=32&qlt=90&pcl=fffffa&o=6&pid=1.2" alt="Logo" width="60" height="60"> --}}
+        MTS AL-MA'ARIJ
+        </a>
         </div>
 
         <div class="flex items-center justify-end w-full ml-auto sm:gap-x-3 sm:order-3">
